@@ -5,15 +5,26 @@ import '../styles/main.scss';
 // import { render } from 'sass';
 
 const init = () => {
+  const app = document.getElementById('app');
+
+  let setup;
+  let punchLine;
+  let i = 0;
+
+  const renderDom = () => {
+    app.innerHTML = `        
+    <h2 id="jokeBody"></h2>
+    <h3 id="punchLineBody"></h3>
+    <button type="button" class="btn btn-success" id="jokeLol">Click me to hear a joke.</button></div> `;
+  };
+
+  renderDom();
+
   const punchLineBody = document.getElementById('punchLineBody');
   const jokeBody = document.getElementById('jokeBody');
   const jokeButton = document.getElementById('jokeLol');
 
-  let setup = '';
-  let punchLine = '';
-  let i = 0;
-
-  const endpoint = 'https://v2.jokeapi.dev/joke/pun';
+  const endpoint = 'https://v2.jokeapi.dev/joke/Any?format=json&safe-mode&type=twopart';
   const getRequest = () => new Promise((resolve, reject) => {
     fetch(endpoint, {
       method: 'GET',
@@ -51,15 +62,8 @@ const init = () => {
   };
 
   document.getElementById('jokeLol').addEventListener('click', () => {
-    if (setup === undefined || null) {
-      console.warn('undefined');
-      getRequest();
-      i = 0;
-      jokeButton.innerHTML = 'I dont know if I want to tell you that actually...  Try again...';
-    } else {
-      i += 1;
-      JokeSequence();
-    }
+    i += 1;
+    JokeSequence();
   });
 };
 
