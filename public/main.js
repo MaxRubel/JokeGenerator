@@ -4,22 +4,18 @@ import 'bootstrap'; // import bootstrap elements and js
 import '../styles/main.scss';
 // import { render } from 'sass';
 
-const init = () => {
+const htmlStructure = () => {
   const app = document.getElementById('app');
-
-  let setup;
-  let punchLine;
-  let i = 0;
-  let dataArray;
-  const renderDom = () => {
-    app.innerHTML = `        
+  app.innerHTML = `        
     <h2 id="jokeBody"></h2>
     <h3 id="punchLineBody"></h3>
     <button type="button" class="btn btn-success" id="jokeLol">Click me to hear a joke.</button></div> `;
-  };
+};
 
-  renderDom();
-
+const events = () => {
+  let setup;
+  let punchLine;
+  let i = 0;
   const punchLineBody = document.getElementById('punchLineBody');
   const jokeBody = document.getElementById('jokeBody');
   const jokeButton = document.getElementById('jokeLol');
@@ -35,29 +31,28 @@ const init = () => {
       .then((response) => response.json())
       .then((data) => {
         resolve(data);
-        dataArray = data;
         setup = data.setup;
         punchLine = data.delivery;
       })
       .catch(reject);
   });
 
-  // getRequest();
   getRequest();
 
   const JokeSequence = () => {
     if (i === 1) {
-      console.warn(i);
-      jokeBody.innerHTML = setup;
-      jokeButton.innerHTML = 'Get the Punchline.';
+      setTimeout(() => {
+        jokeBody.innerHTML = setup;
+        jokeButton.innerHTML = 'Get the Punchline.';
+      }, 200);
     }
     if (i === 2) {
-      console.warn(i);
-      punchLineBody.innerHTML = punchLine;
-      jokeButton.innerHTML = 'Lol. Hear another one?';
+      setTimeout(() => {
+        punchLineBody.innerHTML = punchLine;
+        jokeButton.innerHTML = 'Lol. Hear another one?';
+      }, 200);
     }
     if (i === 3) {
-      console.warn(i);
       getRequest();
       i = 0;
       setup = '';
@@ -70,10 +65,13 @@ const init = () => {
   };
 
   document.getElementById('jokeLol').addEventListener('click', () => {
-    console.warn(dataArray);
     i += 1;
     JokeSequence();
   });
 };
+const startApp = () => {
+  htmlStructure();
+  events();
+};
 
-init();
+startApp();
