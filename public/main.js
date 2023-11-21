@@ -13,8 +13,8 @@ const htmlStructure = () => {
 };
 
 const events = () => {
-  let setup;
-  let punchLine;
+  // let setup;
+  // let punchLine;
   let i = 0;
   const punchLineBody = document.getElementById('punchLineBody');
   const jokeBody = document.getElementById('jokeBody');
@@ -31,44 +31,61 @@ const events = () => {
       .then((response) => response.json())
       .then((data) => {
         resolve(data);
-        setup = data.setup;
-        punchLine = data.delivery;
+        // setup = data.setup;
+        // punchLine = data.delivery;
       })
       .catch(reject);
   });
 
   getRequest();
 
-  const JokeSequence = () => {
-    if (i === 1) {
-      setTimeout(() => {
-        jokeBody.innerHTML = setup;
-        jokeButton.innerHTML = 'Get the Punchline.';
-      }, 200);
-    }
-    if (i === 2) {
-      setTimeout(() => {
-        punchLineBody.innerHTML = punchLine;
-        jokeButton.innerHTML = 'Lol. Hear another one?';
-      }, 200);
-    }
-    if (i === 3) {
-      getRequest();
-      i = 0;
-      setup = '';
-      punchLine = '';
-      jokeBody.innerHTML = '';
-      punchLineBody.innerHTML = '';
-      jokeButton.innerHTML = 'Click me to hear a joke';
-      console.warn(i);
-    }
-  };
+  // const JokeSequence = (data) => {
+  //   if (i === 1) {
+  //     setTimeout(() => {
+  //       jokeBody.innerHTML = data.setup;
+  //       jokeButton.innerHTML = 'Get the Punchline.';
+  //     }, 200);
+  //   }
+  //   if (i === 2) {
+  //     setTimeout(() => {
+  //       punchLineBody.innerHTML = data.delivery;
+  //       jokeButton.innerHTML = 'Lol. Hear another one?';
+  //     }, 200);
+  //   }
+  //   if (i === 3) {
+  //     getRequest();
+  //     i = 0;
+  //     // setup = '';
+  //     // punchLine = '';
+  //     jokeBody.innerHTML = '';
+  //     punchLineBody.innerHTML = '';
+  //     jokeButton.innerHTML = 'Click me to hear a joke';
+  //     console.warn(i);
+  //   }
+  // };
 
   document.getElementById('jokeLol').addEventListener('click', () => {
     i += 1;
-    JokeSequence();
+    getRequest().then((data) => {
+      if (i === 1) {
+        jokeBody.innerHTML = data.setup;
+        jokeButton.innerHTML = 'Get the Punchline.';
+      }
+      if (i === 2) {
+        punchLineBody.innerHTML = data.delivery;
+        jokeButton.innerHTML = 'Lol. Hear another one?';
+      }
+      if (i === 3) {
+        i = 0;
+        jokeBody.innerHTML = '';
+        punchLineBody.innerHTML = '';
+        jokeButton.innerHTML = 'Click me to hear a joke';
+        console.warn(i);
+      }
+    });
   });
 };
+
 const startApp = () => {
   htmlStructure();
   events();
