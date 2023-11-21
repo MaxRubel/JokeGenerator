@@ -6,7 +6,7 @@ import '../styles/main.scss';
 
 const htmlStructure = () => {
   const app = document.getElementById('app');
-  app.innerHTML = `        
+  app.innerHTML = `  
     <h2 id="jokeBody"></h2>
     <h3 id="punchLineBody"></h3>
     <button type="button" class="btn btn-success" id="jokeLol">Click me to hear a joke.</button></div> `;
